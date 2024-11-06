@@ -1,19 +1,33 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Bloco de Notas Online</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ferramenta de Notepad Online. Salve seu texto na nuvem e o utilize em qualquer lugar ou plataforma.">
+  <title>Notepad Online</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Bloco de Notas Online</h1>
-  <form id="note-form">
-    <label for="slug">Nome do Bloco de Notas:</label>
-    <input type="text" id="slug" required>
-    <textarea id="content" placeholder="Escreva sua nota aqui..." required></textarea>
-    <button type="submit">Salvar Nota</button>
-  </form>
+
+  <header>
+    <h1>Notepad Online</h1>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="user-box">
+        <label for="slug">Escolha um nome de usuário</label>
+        <div class="input-group">
+          <span class="input-group-addon">invertexto.com/</span>
+          <input type="text" id="slug" placeholder="Nome de usuário" required>
+        </div>
+        <textarea id="content" placeholder="Escreva sua nota aqui..."></textarea>
+        <button id="saveBtn">Salvar Nota</button>
+      </div>
+      <div id="statusMessage"></div>
+    </div>
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>
