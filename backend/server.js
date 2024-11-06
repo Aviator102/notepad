@@ -1,25 +1,22 @@
 const express = require('express');
-const cors = require('cors');
+const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+const noteController = require('./controllers/noteController');
+
+// Carregar variáveis de ambiente
+dotenv.config();
+
 const app = express();
-const port = 3000; // ou qualquer outra porta que você esteja usando
+const port = process.env.PORT || 3000;
 
-app.use(cors()); // Permite requisições de diferentes origens
-app.use(express.json()); // Para aceitar JSON no corpo da requisição
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Definindo a rota para criar notas
-app.post('/api/create', (req, res) => {
-    // Aqui você pode colocar a lógica para salvar a nota no banco de dados
-    const { slug, content } = req.body;
-    
-    if (!slug || !content) {
-        return res.status(400).json({ error: 'Slug e conteúdo são obrigatórios' });
-    }
+// Rotas
+app.post('/api/create', noteController.createNote);
 
-    // Exemplo de resposta de sucesso
-    res.status(200).json({ message: 'Nota criada com sucesso!' });
-});
-
-// Iniciando o servidor
+// Iniciar o servidor
 app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });
