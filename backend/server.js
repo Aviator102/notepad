@@ -10,15 +10,28 @@ app.use(express.json());
 app.post('/api/create', async (req, res) => {
     const { slug, content } = req.body;
 
+    // Validação de campos
     if (!slug || !content) {
-        return res.status(400).json({ error: 'Slug e conteúdo são obrigatórios' });
+        return res.status(400).json({
+            status: 'erro',
+            message: 'Slug e conteúdo são obrigatórios'
+        });
     }
 
     try {
+        // Cria a nota no banco de dados
         const note = await createNote(slug, content);
-        res.status(201).json({ note });
+        return res.status(201).json({
+            status: 'sucesso',
+            message: 'Nota criada com sucesso!',
+            note: note // Retorna a nota criada para o cliente
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar a nota', details: error });
+        return res.status(500).json({
+            status: 'erro',
+            message: 'Erro ao criar a nota',
+            error: error.message
+        });
     }
 });
 
