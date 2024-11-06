@@ -1,14 +1,23 @@
-const pool = require('../db');
+const noteModel = require('../models/noteModel');
 
-// Função para criar uma nova nota no banco de dados
-const createNote = async (slug, content) => {
-  const result = await pool.query(
-    'INSERT INTO notes (slug, content) VALUES ($1, $2) RETURNING *',
-    [slug, content]
-  );
-  return result.rows[0];
-};
+// Função para criar nota através da API
+exports.createNote = async (req, res) => {
+  const { slug, content } = req.body;
 
-module.exports = {
-  createNote
+  if (!slug || !content) {
+    return res.status(400).json({ error: "Slug e content são obrigatórios" });
+  }
+
+  try {
+    const note = await noteModel.createNote(slug, content);
+    res.status(201).json({
+      id: note.id,
+      slug: note.slug,
+      content: note.content,
+      created_at: note.created_at
+    });
+  } catch (error) {
+    console.error('Erro ao criar nota:', error);
+    res.status(500).json({ error: 'Erro ao criar a nota' });
+  }
 };
