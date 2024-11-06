@@ -1,13 +1,14 @@
-const { Client } = require('pg');
-require('dotenv').config();
+// backend/db.js
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL, // Obtendo a URL de conexão do arquivo .env
-  ssl: {
-    rejectUnauthorized: false // Necessário para garantir que o SSL seja aceito
-  }
+dotenv.config();
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,  // Necessário para algumas conexões SSL
+    },
 });
 
-client.connect();
-
-module.exports = client;
+module.exports = pool;
