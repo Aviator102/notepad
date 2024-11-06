@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Notepad Online</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>Notepad Online</h1>
+	</header>
+
+	<main>
+		<div class="container">
+			<h2>Crie seu Notepad</h2>
+			<div class="box">
+				<div class="user-box">
+					<label for="slug">Escolha um nome de usuário</label>
+					<div class="input-group">
+						<span class="input-group-addon">notepad.vercel.app/</span>
+						<input type="text" id="slug" placeholder="Nome de usuário" value="example123">
+						<button onclick="createNote()">OK</button>
+					</div>
+					<div class="alerta"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		function createNote() {
+			const username = document.getElementById('slug').value.trim();
+			if (!username) {
+				alert("Por favor, insira um nome de usuário.");
+				return;
+			}
+
+			// Enviar a solicitação para criar uma nota no servidor
+			fetch('/api/notes', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					username: username,
+					content: "Sua nota está vazia. Edite aqui..."
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.error) {
+					document.querySelector('.alerta').innerText = data.error;
+				} else {
+					window.location.href = `/${username}`;  // Redireciona para o Notepad
+				}
+			})
+			.catch(error => {
+				document.querySelector('.alerta').innerText = 'Erro ao criar nota.';
+			});
+		}
+	</script>
+</body>
+</html>
