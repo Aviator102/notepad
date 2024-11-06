@@ -1,33 +1,23 @@
-async function createNote() {
-    const slug = document.getElementById('slug').value;
-    const content = document.getElementById('content').value;
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notepad Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Notepad Online</h1>
+    <div>
+        <label for="slug">Nome de usuário:</label>
+        <input type="text" id="slug" placeholder="Escolha um nome de usuário" required>
+    </div>
+    <div>
+        <label for="content">Conteúdo da Nota:</label>
+        <textarea id="content" placeholder="Digite sua nota" required></textarea>
+    </div>
+    <button onclick="createNote()">Salvar Nota</button>
 
-    if (!slug || !content) {
-        alert('Por favor, preencha todos os campos.');
-        return;
-    }
-
-    try {
-        // Envia a solicitação para a API
-        const response = await fetch('/api/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ slug, content })
-        });
-
-        const data = await response.json();
-
-        // Verifica o status da resposta
-        if (response.ok) {
-            alert(data.message);  // Exibe a mensagem de sucesso
-            console.log('Nota criada:', data.note);  // Exibe os detalhes da nota
-        } else {
-            alert(data.message);  // Exibe a mensagem de erro
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao conectar com o servidor. Tente novamente mais tarde.');
-    }
-}
+    <script src="script.js"></script>
+</body>
+</html>
