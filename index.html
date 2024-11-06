@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notepad Online</title>
+    <title>Bloco de Notas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Notepad Online</h1>
-    <div>
-        <label for="slug">Nome de usuário:</label>
-        <input type="text" id="slug" placeholder="Escolha um nome de usuário" required>
-    </div>
-    <div>
-        <label for="content">Conteúdo da Nota:</label>
-        <textarea id="content" placeholder="Digite sua nota" required></textarea>
-    </div>
-    <button onclick="createNote()">Salvar Nota</button>
-
+    <h1>Bloco de Notas</h1>
+    <form id="noteForm">
+        <label for="slug">Slug:</label>
+        <input type="text" id="slug" name="slug" required>
+        <br>
+        <label for="content">Conteúdo:</label>
+        <textarea id="content" name="content" required></textarea>
+        <br>
+        <button type="submit">Criar Nota</button>
+    </form>
     <script src="script.js"></script>
 </body>
 </html>
