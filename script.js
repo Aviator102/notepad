@@ -1,22 +1,25 @@
-// script.js
-const apiUrl = '/api';
-
-document.getElementById('note-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
+document.getElementById('saveBtn').addEventListener('click', async function () {
   const slug = document.getElementById('slug').value;
   const content = document.getElementById('content').value;
+  
+  if (!slug || !content) {
+    alert('Por favor, preencha todos os campos.');
+    return;
+  }
 
-  const response = await fetch(`${apiUrl}/create`, {
+  const response = await fetch('/api/create', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ slug, content })
   });
 
-  if (response.ok) {
-    alert('Nota salva com sucesso!');
+  const result = await response.json();
+
+  if (result.status === 'ok') {
+    document.getElementById('statusMessage').textContent = 'Nota salva com sucesso!';
+    document.getElementById('statusMessage').style.color = 'green';
   } else {
-    alert('Erro ao salvar a nota.');
+    document.getElementById('statusMessage').textContent = 'Erro ao salvar a nota.';
+    document.getElementById('statusMessage').style.color = 'red';
   }
 });
