@@ -1,41 +1,25 @@
 const express = require('express');
-const { createNote } = require('./db');
+const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000; // ou qualquer outra porta que você esteja usando
 
-// Middlewares
-app.use(express.json());
+app.use(cors()); // Permite requisições de diferentes origens
+app.use(express.json()); // Para aceitar JSON no corpo da requisição
 
-// Endpoint para criar uma nova nota
-app.post('/api/create', async (req, res) => {
+// Definindo a rota para criar notas
+app.post('/api/create', (req, res) => {
+    // Aqui você pode colocar a lógica para salvar a nota no banco de dados
     const { slug, content } = req.body;
-
-    // Validação de campos
+    
     if (!slug || !content) {
-        return res.status(400).json({
-            status: 'erro',
-            message: 'Slug e conteúdo são obrigatórios'
-        });
+        return res.status(400).json({ error: 'Slug e conteúdo são obrigatórios' });
     }
 
-    try {
-        // Cria a nota no banco de dados
-        const note = await createNote(slug, content);
-        return res.status(201).json({
-            status: 'sucesso',
-            message: 'Nota criada com sucesso!',
-            note: note // Retorna a nota criada para o cliente
-        });
-    } catch (error) {
-        return res.status(500).json({
-            status: 'erro',
-            message: 'Erro ao criar a nota',
-            error: error.message
-        });
-    }
+    // Exemplo de resposta de sucesso
+    res.status(200).json({ message: 'Nota criada com sucesso!' });
 });
 
-// Inicializa o servidor
+// Iniciando o servidor
 app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
+    console.log(`Servidor rodando na porta ${port}`);
 });
